@@ -1,16 +1,79 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { SplashScreen } from "@/screens/SplashScreen";
+import { NameScreen } from "@/screens/NameScreen";
+import { ReasonScreen } from "@/screens/ReasonScreen";
+import { BodyMapScreen } from "@/screens/BodyMapScreen";
+import { PainScreen } from "@/screens/PainScreen";
+import { SuccessScreen } from "@/screens/SuccessScreen";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
-  return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
-  );
+type Step = "splash" | "name" | "reason" | "body" | "pain" | "success";
+
+interface FormState {
+  name: string;
+  reason: "symptom" | "preventive" | null;
+  painAreas: string[];
+  painLevel: number;
+}
+
+const initial: FormState = {
+  name: "",
+  reason: null,
+  painAreas: [],
+  painLevel: 5,
 };
 
-const Index = PlaceholderIndex;
+const Index = () => {
+  const [step, setStep] = useState<Step>("splash");
+  const [data, setData] = useState<FormState>(initial);
+
+  const update = (patch: Partial<FormState>) => setData((d) => ({ ...d, ...patch }));
+
+  const restart = () => {
+    setData(initial);
+    setStep("splash");
+  };
+
+  return (
+    <main key={step}>
+      {step === "splash" && <SplashScreen onStart={() => setStep("name")} />}
+      {step === "name" && (
+        <NameScreen
+          value={data.name}
+          onChange={(name) => update({ name })}
+          onNext={() => setStep("reason")}
+        />
+      )}
+      {step === "reason" && (
+        <ReasonScreen
+          name={data.name}
+          value={data.reason}
+          onChange={(reason) => update({ reason })}
+          onNext={() => setStep(data.reason === "symptom" ? "body" : "pain")}
+        />
+      )}
+      {step === "body" && (
+        <BodyMapScreen
+          selected={data.painAreas}
+          onToggle={(id) =>
+            update({
+              painAreas: data.painAreas.includes(id)
+                ? data.painAreas.filter((x) => x !== id)
+                : [...data.painAreas, id],
+            })
+          }
+          onNext={() => setStep("pain")}
+        />
+      )}
+      {step === "pain" && (
+        <PainScreen
+          level={data.painLevel}
+          onChange={(painLevel) => update({ painLevel })}
+          onNext={() => setStep("success")}
+        />
+      )}
+      {step === "success" && <SuccessScreen name={data.name} onRestart={restart} />}
+    </main>
+  );
+};
 
 export default Index;
