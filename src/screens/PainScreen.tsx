@@ -20,11 +20,11 @@ const labelFor = (lvl: number) => {
   return "Insuportável";
 };
 
-const moodFor = (lvl: number) => {
+const moodFor = (lvl: number): "happy" | "thinking" | "worried" => {
   if (lvl <= 3) return "happy";
   if (lvl <= 6) return "thinking";
   return "worried";
-} as const;
+};
 
 export const PainScreen = ({ level, onChange, onNext }: PainScreenProps) => {
   const label = useMemo(() => labelFor(level), [level]);
