@@ -19,25 +19,25 @@ const STATEMENTS: Statement[] = [
     id: "results",
     icon: <BarChart3 className="w-5 h-5" strokeWidth={2.4} />,
     text: "95% dos pacientes tratados pelo método Sou Coluna relatam melhoras?",
-    tint: "from-rose-300/70 to-amber-200/60",
+    tint: "from-primary/50 to-primary-glow/50",
   },
   {
     id: "evidence",
     icon: <FlaskConical className="w-5 h-5" strokeWidth={2.4} />,
     text: "O tratamento é baseado em evidências científicas?",
-    tint: "from-sky-300/60 to-violet-300/60",
+    tint: "from-primary-glow/60 to-primary/40",
   },
   {
     id: "safe",
     icon: <Leaf className="w-5 h-5" strokeWidth={2.4} />,
     text: "O método é seguro, suave, sem cirurgias e sem medicamentos?",
-    tint: "from-emerald-300/60 to-teal-300/60",
+    tint: "from-primary-soft to-primary-glow/50",
   },
   {
     id: "preventive",
     icon: <ShieldCheck className="w-5 h-5" strokeWidth={2.4} />,
     text: "Realizamos acompanhamento preventivo da coluna ao longo da vida?",
-    tint: "from-indigo-300/60 to-primary/50",
+    tint: "from-primary-deep/40 to-primary/50",
   },
 ];
 
@@ -63,7 +63,7 @@ export const DidYouKnowScreen = ({ answers, onAnswer, onNext }: DidYouKnowScreen
           style={{ animationDelay: "1.2s" }}
         />
         <div
-          className="absolute bottom-0 left-1/4 w-[320px] h-[320px] rounded-full bg-amber-200/40 blur-3xl animate-float"
+          className="absolute bottom-0 left-1/4 w-[320px] h-[320px] rounded-full bg-primary-soft blur-3xl animate-float"
           style={{ animationDelay: "2.4s" }}
         />
       </div>
