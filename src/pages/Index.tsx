@@ -2,15 +2,17 @@ import { useState } from "react";
 import { SplashScreen } from "@/screens/SplashScreen";
 import { NameScreen } from "@/screens/NameScreen";
 import { ReasonScreen } from "@/screens/ReasonScreen";
+import { DidYouKnowScreen, DidYouKnowAnswer } from "@/screens/DidYouKnowScreen";
 import { BodyMapScreen } from "@/screens/BodyMapScreen";
 import { PainScreen } from "@/screens/PainScreen";
 import { SuccessScreen } from "@/screens/SuccessScreen";
 
-type Step = "splash" | "name" | "reason" | "body" | "pain" | "success";
+type Step = "splash" | "name" | "reason" | "didyouknow" | "body" | "pain" | "success";
 
 interface FormState {
   name: string;
   reason: "symptom" | "preventive" | null;
+  didYouKnow: Record<string, DidYouKnowAnswer>;
   painAreas: string[];
   painLevel: number;
 }
@@ -18,6 +20,7 @@ interface FormState {
 const initial: FormState = {
   name: "",
   reason: null,
+  didYouKnow: {},
   painAreas: [],
   painLevel: 5,
 };
@@ -48,6 +51,15 @@ const Index = () => {
           name={data.name}
           value={data.reason}
           onChange={(reason) => update({ reason })}
+          onNext={() => setStep("didyouknow")}
+        />
+      )}
+      {step === "didyouknow" && (
+        <DidYouKnowScreen
+          answers={data.didYouKnow}
+          onAnswer={(id, value) =>
+            update({ didYouKnow: { ...data.didYouKnow, [id]: value } })
+          }
           onNext={() => setStep(data.reason === "symptom" ? "body" : "pain")}
         />
       )}
